@@ -72,24 +72,21 @@ class FichaController extends Controller
                     $coleccion[$i]['curp']=$data->curp;
                     $leyenda=$ficha==1?"Si":"No";
                     $coleccion[$i]['ficha']=$leyenda;
-                    $datos_aspirante=PreFicha::where('periodo',$periodo)
-                        ->where('curp',$data->curp)->first();
                     if($existe){
+                        $datos_aspirante=PreFicha::where('periodo',$periodo)
+                            ->where('curp',$data->curp)->first();
                         $carrera_aspira=trim($datos_aspirante->carrera_opcion_1);
                         $ncarrera=Carreras::where('carrera',$carrera_aspira)
                             ->select('nombre_reducido')
                             ->first();
                         $coleccion[$i]['carrera']=utf8_encode($ncarrera->nombre_reducido);
+                        $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
                     }else{
                         $coleccion[$i]['carrera']="Sin informacion";
+                        $coleccion[$i]['no_ficha']="NA";
                     }
                     $coleccion[$i]['correo_personal']=$data->correo;
                     $coleccion[$i]['correo_ite']="asp".substr($periodo,-3)."_".$data->id."@ite.edu.mx";
-                    if($existe){
-                        $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
-                    }else{
-                        $coleccion[$i]['no_ficha']="NA";
-                    }
                     $i++;
                 }
             }else{

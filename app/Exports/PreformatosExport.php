@@ -80,15 +80,11 @@ class PreformatosExport implements FromCollection,WithHeadings
                         $ncarrera=Carreras::where('carrera',$carrera_aspira)
                             ->select('nombre_reducido')
                             ->first();
-                        $coleccion[$i]['carrera']=$ncarrera->nombre_reducido;
+                        $coleccion[$i]['carrera']=utf8_encode($ncarrera->nombre_reducido);
+                        $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
+                        $coleccion[$i]['telefono']=is_null($datos_aspirante->telefono)?"NO INDICO":$datos_aspirante->telefono;
                         $coleccion[$i]['correo_personal']=$data->correo;
                         $coleccion[$i]['correo_ite']="asp".substr($this->periodo,-3)."_".$data->id."@ite.edu.mx";
-                        $coleccion[$i]['telefono']=is_null($datos_aspirante->telefono)?"NO INDICO":$datos_aspirante->telefono;
-                        if($existe){
-                            $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
-                        }else{
-                            $coleccion[$i]['no_ficha']="NA";
-                        }
                         $i++;
                     }
                 }
@@ -98,6 +94,6 @@ class PreformatosExport implements FromCollection,WithHeadings
     }
 
     public function headings(): array{
-        return ["nombre", "apellidos", "curp","ficha","carrera","correo_personal","correo_ite","telefono","no_ficha"];
+        return ["nombre", "apellidos", "curp","ficha","carrera","no_ficha","telefono","correo_personal","correo_ite"];
     }
 }

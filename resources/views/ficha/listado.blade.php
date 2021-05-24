@@ -45,10 +45,12 @@
             <li>Apellidos</li>
             <li>CURP</li>
             <li>Ficha (**)</li>
-            <li>Carrera</li>
+            <li>Carrera (si aplica, caso contrario es NA)</li>
+            <li>No. ficha: Numero de ficha (si aplica; caso contrario es NA)</li>
+            <li>Teléfono con el que se registró para la obtención de la ficha (S/I en caso de sin información)</li>
             <li>Correo personal (el que empleó para llevar a cabo el registro)</li>
             <li>Correo ITE: Es el correo que se le asignó al momento de llevar a cabo su registro.</li>
-            <li>No. ficha: Numero de ficha (si aplica; caso contrario es NA)</li>
+
         </ol>
         <blockquote class="blockquote">
             <ul style="list-style-type: disc">

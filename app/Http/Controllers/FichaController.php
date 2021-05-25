@@ -539,7 +539,7 @@ class FichaController extends Controller
         $periodo=$request->session()->get('periodo');
         $groups=PreFicha::select('carrera_opcion_1',PreFicha::raw('count(*) as total'))
             ->where('periodo',$periodo)
-            ->orderby('carrera_opcion_1','ASC')
+            ->orderBy('carrera_opcion_1','ASC')
             ->groupBy('carrera_opcion_1')
             ->pluck('total','carrera_opcion_1')->all();
         for ($i=0; $i<=count($groups); $i++) {

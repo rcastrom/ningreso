@@ -60,7 +60,7 @@ class PreformatosExport implements FromCollection,WithHeadings
                 }
                 $coleccion[$i]['correo_personal']=$data->correo;
                 $coleccion[$i]['correo_ite']="asp".substr($this->periodo,-3)."_".$data->id."@ite.edu.mx";
-
+                $coleccion[$i]['fecha_registro']=$data->created_at;
                 $i++;
             }
         }else{
@@ -85,6 +85,7 @@ class PreformatosExport implements FromCollection,WithHeadings
                         $coleccion[$i]['telefono']=is_null($datos_aspirante->telefono)?"NO INDICO":$datos_aspirante->telefono;
                         $coleccion[$i]['correo_personal']=$data->correo;
                         $coleccion[$i]['correo_ite']="asp".substr($this->periodo,-3)."_".$data->id."@ite.edu.mx";
+                        $coleccion[$i]['fecha_registro']=$data->created_at;
                         $i++;
                     }
                 }
@@ -94,6 +95,6 @@ class PreformatosExport implements FromCollection,WithHeadings
     }
 
     public function headings(): array{
-        return ["nombre", "apellidos", "curp","ficha","carrera","no_ficha","telefono","correo_personal","correo_ite"];
+        return ["nombre", "apellidos", "curp","ficha","carrera","no_ficha","telefono","correo_personal","correo_ite","fecha_registro"];
     }
 }

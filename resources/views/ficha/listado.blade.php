@@ -54,8 +54,8 @@
         </ol>
         <blockquote class="blockquote">
             <ul style="list-style-type: disc">
-                <li>(*) Todos son datos con los que el aspirante se registró.</li>
-                <li>(**) Ficha significa que existe el CURP con el que se registró en la base
+                <li>Todos son datos con los que el aspirante se registró.</li>
+                <li>Ficha significa que existe el CURP con el que se registró en la base
                     de datos de fichas.
                     Si aparece NO significa que el CURP registrado
                     no ha capturado la información.
@@ -78,8 +78,8 @@
         </ol>
         <blockquote class="blockquote">
             <ul>
-                <li>(*) Todos son datos con los que el aspirante se registró.</li>
-                <li>(**) Ficha significa que existe el CURP con el que se registró en la base
+                <li>Todos son datos con los que el aspirante se registró.</li>
+                <li>Ficha significa que existe el CURP con el que se registró en la base
                     de datos de fichas.
                     Si aparece NO significa que el CURP registrado
                     no ha capturado la información.

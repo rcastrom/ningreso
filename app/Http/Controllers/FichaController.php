@@ -329,9 +329,14 @@ class FichaController extends Controller
         ]);
         $email=$request->get('correo');
         $password=$request->acceso;
-        $user=User::where('email',$email);
-        $user->update(['password'=>bcrypt($password)]);
-        return view('ficha.gracias');
+        if(User::where('email',$email)->count()>0){
+            $user=User::where('email',$email)->count();
+            $user->update(['password'=>bcrypt($password)]);
+            return view('ficha.gracias');
+        }else{
+            return view('ficha.error5')->with(compact('email'));
+        }
+
     }
     public function error1(){
         return redirect()->route('ficha.error1');

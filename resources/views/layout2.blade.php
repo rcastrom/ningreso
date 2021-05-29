@@ -126,7 +126,7 @@
             </ul>
           </li>
           <li class="treeview">
-              <a href="#"><i class="fa fa-chart-line"></i> <span>Estadística</span>
+              <a href="#"><i class="fa fa-line-chart"></i> <span>Estadística</span>
                   <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>

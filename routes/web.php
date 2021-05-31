@@ -53,6 +53,7 @@ Route::group(['prefix'=>'ficha','middleware'=>'auth'],function (){
     Route::get('/kill',[FichaController::class, 'aniquila']);
     Route::post('/kill_bill',[FichaController::class, 'cuello'])->name('ficha.cuello');
     Route::post('/kill_bill2',[FichaController::class, 'cuello2'])->name('ficha.cuello2');
+    Route::post('/kill_bill3',[FichaController::class, 'cuello3'])->name('ficha.cuello3');
     Route::get('/estadistica',[FichaController::class, 'concentrado']);
 });
 

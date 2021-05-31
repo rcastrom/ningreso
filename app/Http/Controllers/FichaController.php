@@ -559,6 +559,12 @@ class FichaController extends Controller
         $chart->colours = $colours;
         return view('ficha.grafica', compact('chart','ncarreras','groups'));
     }
+    public function cuello3(Request $request){
+        $periodo=$request->get('periodo');
+        $ficha=$request->get('asp');
+        Preformato::where('periodo',$periodo)->where('id',$ficha)->delete();
+        return view('ficha.killed');
+    }
     /*public function create1(Request $request)
     {
         $paises=DB::table('paises')->get();

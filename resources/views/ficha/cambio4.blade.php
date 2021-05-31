@@ -52,6 +52,21 @@
             <input type="hidden" name="periodo" id="periodo" value="{{$periodo}}">
             <button type="submit" class="btn btn-primary">Continuar</button>
         </form>
+        <hr>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{route('ficha.cuello3')}}" method="post" role="form">
+                    <legend>Anular registro</legend>
+                    @csrf
+                    Si desea cancelar éste registro para que el estudiante vuelva a iniciar
+                    DESDE CERO, seleccione ésta opción <br>
+                    <input type="hidden" name="asp" id="asp" value="{{$registro}}">
+                    <input type="hidden" name="periodo" id="periodo" value="{{$periodo}}">
+                    <button type="submit" class="btn btn-danger">Eliminar registro</button>
+                </form>
+            </div>
+        </div>
+        <hr>
         <div class="card bg-fuchsia-active">
             <div class="card-body">
                 <ol>
@@ -59,7 +74,6 @@
                         realizar el Centro de Cómputo</li>
                     <li>El usuario a la plataforma de fichas, debe ser el correo asignado por la escuela.</li>
                 </ol>
-
             </div>
         </div>
     @endif

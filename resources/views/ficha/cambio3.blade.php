@@ -88,7 +88,6 @@
                         realizar el Centro de Cómputo</li>
                     <li>El usuario a la plataforma de aspirante, debe ser el correo asignado por la escuela.</li>
                 </ol>
-
             </div>
         </div>
     @endif

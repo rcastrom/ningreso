@@ -135,6 +135,22 @@
                   <li><a href="/ficha/estadistica/">Concentrado</a></li>
               </ul>
           </li>
+          <li class="treeview">
+              <a href="#"><i class="fa fa-users"></i> <span>Propedéutico</span>
+                  <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li><a href="/ficha/prope/alta_grupo">Creación de grupo</a></li>
+                  <li><a href="/ficha/prope/docente">Alta a docente</a></li>
+                  <li><a href="/ficha/prope/asignar">Asignación de docente</a></li>
+                  <li><a href="/ficha/estadistica/">Inscripción</a></li>
+                  <li><a href="/ficha/estadistica/">Listas</a></li>
+                  <li><a href="/ficha/estadistica/">Estadísticas</a></li>
+                  <li><a href="/ficha/estadistica/">Actas</a></li>
+              </ul>
+          </li>
         <!--<li class="treeview">
           <a href="#"><i class="fa fa-database"></i> <span>Captura</span>
             <span class="pull-right-container">

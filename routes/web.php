@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FichaController;
+use App\Http\Controllers\PropeController;
 use App\Http\Controllers\SessionsController;
 
 /*
@@ -55,6 +56,20 @@ Route::group(['prefix'=>'ficha','middleware'=>'auth'],function (){
     Route::post('/kill_bill2',[FichaController::class, 'cuello2'])->name('ficha.cuello2');
     Route::post('/kill_bill3',[FichaController::class, 'cuello3'])->name('ficha.cuello3');
     Route::get('/estadistica',[FichaController::class, 'concentrado']);
+    Route::group(['prefix'=>'prope','middleware'=>'auth'],function(){
+        Route::get('alta_grupo',[PropeController::class, 'alta_grupos']);
+        Route::post('mat_alta',[PropeController::class,'alta_materias'])->name('prope.alta');
+        Route::get('docente',[PropeController::class,'alta_docente1']);
+        Route::post('docente1',[PropeController::class,'alta_docente2'])->name('docente.alta');
+        Route::get('edit',[PropeController::class,'editar_docente1']);
+        Route::post('edicion1',[PropeController::class,'editar_docente2'])->name('docente.datos');
+        Route::post('edicion2',[PropeController::class,'editar_docente3'])->name('docente.contra');
+        Route::get('delete',[PropeController::class,'editar_docente4']);
+        Route::get('asignar',[PropeController::class,'docente_a_grupo1']);
+        Route::get('dmateria',[PropeController::class,'docente_a_grupo2']);
+        Route::post('asignacion',[PropeController::class,'docente_a_grupo3'])->name('docente.asignar');
+        Route::get('delmateria',[PropeController::class,'docente_a_grupo4']);
+    });
 });
 
 /*Route::get('/prepa',[FichaController::class, 'create2')

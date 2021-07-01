@@ -29,15 +29,15 @@
             <div class="row">
                 <div class="form-group col-md-4">
                     <label for="appat">Apellido Paterno</label>
-                    <input type="text" class="form-control" name="appat" id="appat" value="{{$ficha->apellido_paterno}}" onblur="this.value=this.value.toUpperCase();">
+                    <input type="text" class="form-control" name="appat" id="appat" value="{{utf8_encode($ficha->apellido_paterno)}}" onblur="this.value=this.value.toUpperCase();">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="apmat">Apellido Materno</label>
-                    <input type="text" class="form-control" name="apmat" id="apmat" value="{{$ficha->apellido_materno}}" onblur="this.value=this.value.toUpperCase();" required>
+                    <input type="text" class="form-control" name="apmat" id="apmat" value="{{utf8_encode($ficha->apellido_materno)}}" onblur="this.value=this.value.toUpperCase();" required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="nombre">Nombre del aspirante</label>
-                    <input type="text" class="form-control" name="nombre" id="nombre" value="{{$ficha->nombre_aspirante}}" onblur="this.value=this.value.toUpperCase();" required>
+                    <input type="text" class="form-control" name="nombre" id="nombre" value="{{utf8_encode($ficha->nombre_aspirante)}}" onblur="this.value=this.value.toUpperCase();" required>
                 </div>
             </div>
             <div class="row">
@@ -55,15 +55,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="curp">CURP</label>
                     <input type="text" class="form-control" name="curp" id="curp" value="{{$ficha->curp}}" onblur="this.value=this.value.toUpperCase();" required>
                 </div>
-                <div class="form-group col-md-4">
+                <!--<div class="form-group col-md-4">
                     <label for="correo">Correo ITE asignado</label>
                     <input type="email" class="form-control" name="correo" id="correo" value="{{"asp".substr($periodo,'-3')."_".$registro."@ite.edu.mx"}}" readonly>
-                </div>
-                <div class="form-group col-md-4">
+                </div> -->
+                <div class="form-group col-md-6">
                     <label for="correo_alta">Correo que utilizó para el registro de la ficha</label>
                     <input type="email" class="form-control" name="correo_alta" id="correo_alta" value="{{$ficha->correo_electronico}}" readonly>
                 </div>

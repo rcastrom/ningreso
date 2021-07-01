@@ -17,7 +17,7 @@
         Del siguiente listado, seleccione al aspirante que modificará la información.
         <div class="list-group">
             @foreach($aspirantes as $ficha)
-                <a href="/ficha/aspirante/modificar?Id={{$ficha->id}}&periodo={{$periodo}}" class="list-group-item list-group-item-action list-group-item-light">{{$ficha->apellidos}} {{$ficha->nombre}} {{$ficha->curp}}</a>
+                <a href="/ficha/aspirante/modificar?Id={{$ficha->no_solicitud}}&periodo={{$periodo}}" class="list-group-item list-group-item-action list-group-item-light">{{$ficha->apellido_paterno}} {{$ficha->apellido_materno}} {{$ficha->nombre_aspirante}} {{$ficha->curp}}</a>
             @endforeach
         </div>
     @endif

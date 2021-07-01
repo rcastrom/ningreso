@@ -198,14 +198,23 @@ class FichaController extends Controller
         ]);
         $periodo=$request->session()->get('periodo');
         $appat=$request->appat;
-        $posibles=Preformato::where('apellidos','like','%'.$appat.'%')
-            ->count();
+        $posibles=PreFicha::where('periodo',$periodo)
+            ->where(function ($query) use($appat){
+            $query->where('apellido_paterno','like','%'.$appat.'%')
+                ->orWhere('apellido_materno','like','%'.$appat,'%')
+                ->orWhere('nombre_aspirante','like','%'.$appat,'%');
+        })->count();
         if($posibles==0){
             return view('fichas.noprocede3');
         }else{
-            $aspirantes=Preformato::where('apellidos','like','%'.$appat.'%')
-                ->select('id','nombre','apellidos','curp')
-                ->orderby('apellidos','ASC')
+            $aspirantes=PreFicha::where('periodo',$periodo)
+                ->where(function ($query) use($appat){
+                    $query->where('apellido_paterno','like','%'.$appat.'%')
+                        ->orWhere('apellido_materno','like','%'.$appat,'%')
+                        ->orWhere('nombre_aspirante','like','%'.$appat,'%');
+                })->select('no_solicitud','nombre_aspirante','apellido_paterno','apellido_materno','curp')
+                ->orderby('apellido_paterno','ASC')
+                ->orderby('apellido_materno','ASC')
                 ->get();
             return view('ficha.cambio2')->with(compact('aspirantes','periodo'));
         }
@@ -276,16 +285,16 @@ class FichaController extends Controller
     public function update5(Request $request){
         $periodo=$request->get('periodo');
         $registro=$request->get('Id');
-        $datos=Preformato::where('periodo',$periodo)->where('id',$registro)->select('curp')->first();
+        //$datos=PreFicha::where('periodo',$periodo)->where('id',$registro)->select('curp')->first();
         //Buscar si el CURP está como ficha
-        $ficha_existe=PreFicha::where('periodo',$periodo)->where('curp',$datos->curp)->count();
-        if($ficha_existe){
-            $ficha=PreFicha::where('periodo',$periodo)->where('curp',$datos->curp)->first();
+        //$ficha_existe=PreFicha::where('periodo',$periodo)->where('curp',$datos->curp)->count();
+        //if($ficha_existe){
+            $ficha=PreFicha::where('periodo',$periodo)->where('no_solicitud',(int)$registro)->first();
             $carreras=Carreras::where('ofertar',1)->orderBy('nombre_reducido','ASC')->get();
             return view('ficha.cambio3')->with(compact('ficha','carreras','registro','periodo'));
-        }else{
+        /*}else{
             return view('ficha.cambio4')->with(compact('registro','periodo'));
-        }
+        }*/
     }
     public function update6(Request $request){
         $request->validate([

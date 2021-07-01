@@ -58,65 +58,66 @@ class FichaController extends Controller
         if($opcion=="E"){
             return (new PreformatosExport($periodo,$carrera))->download('fichas.xlsx');
         }else{
-            $datos=Preformato::where('periodo',$periodo)
-                ->select('id','nombre','apellidos','curp','correo','creado','created_at')
+            $datos=PreFicha::where('periodo',$periodo)
+                ->select('no_solicitud','nombre_aspirante','apellido_paterno','apellido_materno','curp','telefono','correo_electronico','carrera_opcion_1','created_at')
                 ->get();
             $coleccion = array([]);
             $i=1;
             if($carrera=="T"){
                 foreach ($datos as $data){
-                    $existe=PreFicha::where('periodo',$periodo)->where('curp',$data->curp)->count();
-                    $ficha=$existe>0?1:0;
-                    $coleccion[$i]['nombre']=$data->nombre;
-                    $coleccion[$i]['apellidos']=$data->apellidos;
+                    //$existe=PreFicha::where('periodo',$this->periodo)->where('curp',$data->curp)->count();
+                    //$ficha=$existe>0?1:0;
+                    $coleccion[$i]['nombre']=utf8_encode($data->nombre_aspirante);
+                    $coleccion[$i]['apellidos']=utf8_encode($data->apellido_paterno)." ".utf8_encode($data->apellido_materno);
                     $coleccion[$i]['curp']=$data->curp;
-                    $leyenda=$ficha==1?"Si":"No";
-                    $coleccion[$i]['ficha']=$leyenda;
-                    if($existe){
-                        $datos_aspirante=PreFicha::where('periodo',$periodo)
-                            ->where('curp',$data->curp)->first();
-                        $carrera_aspira=trim($datos_aspirante->carrera_opcion_1);
-                        $ncarrera=Carreras::where('carrera',$carrera_aspira)
-                            ->select('nombre_reducido')
-                            ->first();
-                        $coleccion[$i]['carrera']=utf8_encode($ncarrera->nombre_reducido);
-                        $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
-                    }else{
+                    //$leyenda=$ficha==1?"Si":"No";
+                    //$coleccion[$i]['ficha']=$leyenda;
+                    //if($existe){
+                    //$datos_aspirante=PreFicha::where('periodo',$this->periodo)
+                    //    ->where('curp',$data->curp)->first();
+                    $carrera_aspira=trim($data->carrera_opcion_1);
+                    $ncarrera=Carreras::where('carrera',$carrera_aspira)
+                        ->select('nombre_reducido')
+                        ->first();
+                    $coleccion[$i]['carrera']=utf8_encode($ncarrera->nombre_reducido);
+                    $coleccion[$i]['no_ficha']=$data->no_solicitud;
+                    $coleccion[$i]['telefono']=is_null($data->telefono)?"NO INDICO":$data->telefono;
+                    /*}else{
                         $coleccion[$i]['carrera']="Sin informacion";
                         $coleccion[$i]['no_ficha']="NA";
-                    }
-                    $coleccion[$i]['correo_personal']=$data->correo;
-                    $coleccion[$i]['correo_ite']="asp".substr($periodo,-3)."_".$data->id."@ite.edu.mx";
+                        $coleccion[$i]['telefono']="S/I";
+                    }*/
+                    $coleccion[$i]['correo_personal']=$data->correo_electronico;
+                    //$coleccion[$i]['correo_ite']="asp".substr($this->periodo,-3)."_".$data->id."@ite.edu.mx";
+                    $coleccion[$i]['fecha_registro']=$data->created_at;
                     $i++;
                 }
             }else{
                 foreach ($datos as $data){
-                    $existe=PreFicha::where('periodo',$periodo)->where('curp',$data->curp)->count();
+                    /*$existe=PreFicha::where('periodo',$this->periodo)->where('curp',$data->curp)->count();
                     $ficha=$existe>0?1:0;
                     if($ficha){
-                        $datos_aspirante=PreFicha::where('periodo',$periodo)
-                            ->where('curp',$data->curp)->first();
-                        $carrera_aspira=trim($datos_aspirante->carrera_opcion_1);
-                        if($carrera_aspira==$carrera){
-                            $coleccion[$i]['nombre']=$data->nombre;
-                            $coleccion[$i]['apellidos']=$data->apellidos;
-                            $coleccion[$i]['curp']=$data->curp;
-                            $leyenda=$ficha==1?"Si":"No";
-                            $coleccion[$i]['ficha']=$leyenda;
-                            $ncarrera=Carreras::where('carrera',$carrera_aspira)
-                                ->select('nombre_reducido')
-                                ->first();
-                            $coleccion[$i]['carrera']=$ncarrera->nombre_reducido;
-                            $coleccion[$i]['correo_personal']=$data->correo;
-                            $coleccion[$i]['correo_ite']="asp".substr($periodo,-3)."_".$data->id."@ite.edu.mx";
-                            if($existe){
-                                $coleccion[$i]['no_ficha']=$datos_aspirante->no_solicitud;
-                            }else{
-                                $coleccion[$i]['no_ficha']="NA";
-                            }
-                            $i++;
-                        }
+                        $datos_aspirante=PreFicha::where('periodo',$this->periodo)
+                            ->where('curp',$data->curp)->first();*/
+                    $carrera_aspira=trim($data->carrera_opcion_1);
+                    if($carrera_aspira==$carrera){
+                        $coleccion[$i]['nombre']=utf8_encode($data->nombre_aspirante);
+                        $coleccion[$i]['apellidos']=utf8_encode($data->apellido_paterno)." ".utf8_encode($data->apellido_materno);
+                        $coleccion[$i]['curp']=$data->curp;
+                        //$leyenda=$ficha==1?"Si":"No";
+                        //$coleccion[$i]['ficha']=$leyenda;
+                        $ncarrera=Carreras::where('carrera',$carrera_aspira)
+                            ->select('nombre_reducido')
+                            ->first();
+                        $coleccion[$i]['carrera']=utf8_encode($ncarrera->nombre_reducido);
+                        $coleccion[$i]['no_ficha']=$data->no_solicitud;
+                        $coleccion[$i]['telefono']=is_null($data->telefono)?"NO INDICO":$data->telefono;
+                        $coleccion[$i]['correo_personal']=$data->correo_electronico;
+                        //$coleccion[$i]['correo_ite']="asp".substr($this->periodo,-3)."_".$data->id."@ite.edu.mx";
+                        $coleccion[$i]['fecha_registro']=$data->created_at;
+                        $i++;
                     }
+                    //}
                 }
             }
             $info=collect($coleccion);

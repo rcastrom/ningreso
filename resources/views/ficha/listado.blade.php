@@ -44,22 +44,14 @@
             <li>Nombre</li>
             <li>Apellidos</li>
             <li>CURP</li>
-            <li>Ficha (**)</li>
-            <li>Carrera (si aplica, caso contrario es NA)</li>
-            <li>No. ficha: Numero de ficha (si aplica; caso contrario es NA)</li>
+            <li>Carrera</li>
+            <li>Ficha</li>
             <li>Teléfono con el que se registró para la obtención de la ficha (S/I en caso de sin información)</li>
             <li>Correo personal (el que empleó para llevar a cabo el registro)</li>
-            <li>Correo ITE: Es el correo que se le asignó al momento de llevar a cabo su registro.</li>
-
         </ol>
         <blockquote class="blockquote">
             <ul style="list-style-type: disc">
                 <li>Todos son datos con los que el aspirante se registró.</li>
-                <li>Ficha significa que existe el CURP con el que se registró en la base
-                    de datos de fichas.
-                    Si aparece NO significa que el CURP registrado
-                    no ha capturado la información.
-                </li>
             </ul>
         </blockquote>
         <div class="card bg-info text-white">
@@ -73,17 +65,12 @@
             <li>Nombre</li>
             <li>Apellidos</li>
             <li>CURP</li>
-            <li>Ficha (**)</li>
             <li>Carrera</li>
+            <li>Ficha</li>
         </ol>
         <blockquote class="blockquote">
             <ul>
                 <li>Todos son datos con los que el aspirante se registró.</li>
-                <li>Ficha significa que existe el CURP con el que se registró en la base
-                    de datos de fichas.
-                    Si aparece NO significa que el CURP registrado
-                    no ha capturado la información.
-                </li>
             </ul>
         </blockquote>
     @endif

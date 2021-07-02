@@ -36,7 +36,7 @@ class FichaController extends Controller
         $info=Ficha::select('fichas')->first();
         $periodo=$info->fichas;
         $request->session()->put('periodo', $periodo);
-        return (view('ficha.welcome',['periodo'=>$periodo]));
+        return (view('ficha.welcome'));
     }
 
     public function cambio(){
@@ -524,19 +524,18 @@ class FichaController extends Controller
     }
     public function cuello(Request $request){
         request()->validate([
-            'curp'=>'required|max:18',
+            'num_sol'=>'required',
         ],[
-            'curp.required'=>'Por favor, indique el número de ficha',
-            'curp.max'=>'La longitud del CURP debe ser de 18 caracteres',
+            'num_sol.required'=>'Por favor, indique el número de ficha'
         ]);
         $periodo=$request->session()->get('periodo');
-        $curp=$request->get('curp');
-        $registro=Preformato::selectRaw('count(*) as existe')
-            ->where('curp',$curp)
+        $preficha=$request->get('num_sol');
+        $registro=PreFicha::selectRaw('count(*) as existe')
+            ->where('no_solicitud',(int) $preficha)
             ->where('periodo',$periodo)
             ->first();
         if($registro->existe>0){
-            $prevalue=Preformato::where('curp',$curp)
+            $prevalue=PreFicha::where('no_solicitud',(int) $preficha)
                 ->where('periodo',$periodo)
                 ->first();
             return view('ficha.aniquilar')->with(compact('prevalue'));
@@ -547,7 +546,7 @@ class FichaController extends Controller
     public function cuello2(Request $request){
         $periodo=$request->get('periodo');
         $id=$request->get('id');
-        Preformato::where('id',$id)->where('periodo',$periodo)->delete();
+        PreFicha::where('no_solicitud',(int)$id)->where('periodo',$periodo)->delete();
         return view('ficha.killed');
     }
     public function concentrado(Request $request){

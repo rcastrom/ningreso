@@ -3,18 +3,17 @@
 @section('menu')
 <h1>
     Parámetros
-    <small>Matar Ficha</small>
+    <small>Cancelar Ficha</small>
 </h1>
 <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-asterisk"></i>Parámetros</a></li>
-    <li class="active">Matar Ficha</li>
+    <li class="active">Cancelar Ficha</li>
 </ol>
 @endsection
 
 @section('content')
     @if( auth()->check() )
-        <h2>Aniquilar aspirante</h2>
-        <h4>Se emplea el módulo cuando es necesario aniquilar completamente a un aspirante</h4>
-        <p>La pre-ficha ha sido eliminada.</p>
+        <h2>Eliminar registro</h2>
+        <p>La ficha ha sido eliminada.</p>
     @endif
 @endsection

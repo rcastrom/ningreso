@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers;
 
+use App\PreFicha;
+use App\Prope;
 use App\User;
 use App\Docente;
 use Carbon\Carbon;
@@ -191,5 +193,68 @@ class PropeController extends Controller
         $materia=$request->get('value');
         GpoPrope::where('periodo',$periodo)->where('id',(int)$materia)->delete();
         return view('prope.docente_gracias5');
+    }
+    public function inscripcion1(){
+        return view('prope.inscripcion1');
+    }
+    public function inscripcion2(Request $request){
+        request()->validate([
+            'appat'=>'required',
+        ],[
+            'appat.required'=>'Por favor, indique el apellido de la persona'
+        ]);
+        $periodo=$request->session()->get('periodo');
+        $appat=utf8_decode($request->appat);
+        $posibles=PreFicha::where('periodo',$periodo)
+            ->where(function ($query) use($appat){
+                $query->where('apellido_paterno','like','%'.$appat.'%')
+                    ->orWhere('apellido_materno','like','%'.$appat,'%')
+                    ->orWhere('nombre_aspirante','like','%'.$appat,'%');
+            })->count();
+        if($posibles==0){
+            return view('prope.noprocede3');
+        }else{
+            $aspirantes=PreFicha::where('periodo',$periodo)
+                ->where(function ($query) use($appat){
+                    $query->where('apellido_paterno','like','%'.$appat.'%')
+                        ->orWhere('apellido_materno','like','%'.$appat,'%')
+                        ->orWhere('nombre_aspirante','like','%'.$appat,'%');
+                })->select('no_solicitud','nombre_aspirante','apellido_paterno','apellido_materno','curp')
+                ->orderby('apellido_paterno','ASC')
+                ->orderby('apellido_materno','ASC')
+                ->get();
+            return view('prope.inscripcion2')->with(compact('aspirantes','periodo'));
+        }
+    }
+    public function inscripcion3(Request $request){
+        $periodo=$request->session()->get('periodo');
+        $cant=GpoPrope::where('periodo',$periodo)->count();
+        $info=GpoPrope::where('periodo',$periodo)
+            ->select('materia','grupo','docente','id')
+            ->orderBy('materia','ASC')
+            ->orderBy('grupo','ASC')
+            ->get();
+        $no_sol=$request->ficha;
+        $datos=PreFicha::where('periodo',$periodo)->where('no_solicitud',(int)$no_sol)->first();
+        $inscrito=Prope::where('periodo',$periodo)->where('ficha',(int)$no_sol)->count();
+        return view('prope.inscripcion3')->with(compact('periodo','cant','info','datos','inscrito'));
+    }
+    public function inscripcion4(Request $request){
+        $materias=$request->get("materias");
+        $inscrito=$request->get('inscrito');
+        if($inscrito>0){
+            Prope::where('periodo',$request->get("periodo"))
+                ->where('ficha',(int)$request->get("ficha"))
+                ->delete();
+        }
+        foreach ($materias as $value){
+            $alta_materia = new Prope;
+            $alta_materia->periodo=$request->get("periodo");
+            $alta_materia->ficha=(int)$request->get("ficha");
+            $alta_materia->materia=(int)$value;
+            $alta_materia->eval=null;
+            $alta_materia->save();
+        }
+        return view('prope.inscripcion_gracias');
     }
 }

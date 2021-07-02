@@ -32,7 +32,7 @@
                     <td>{{ $value["nombre"] }}</td>
                     <td>{{ $value["apellidos"] }}</td>
                     <td>{{ $value["curp"] }}</td>
-                    <td>{{ utf8_encode($value["carrera"]) }}</td>
+                    <td>{{ $value["carrera"] }}</td>
                     <td>{{ $value["no_ficha"] }}</td>
                 </tr>
                     <?php $i++;?>

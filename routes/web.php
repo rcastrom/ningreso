@@ -69,6 +69,10 @@ Route::group(['prefix'=>'ficha','middleware'=>'auth'],function (){
         Route::get('dmateria',[PropeController::class,'docente_a_grupo2']);
         Route::post('asignacion',[PropeController::class,'docente_a_grupo3'])->name('docente.asignar');
         Route::get('delmateria',[PropeController::class,'docente_a_grupo4']);
+        Route::get('inscribir',[PropeController::class,'inscripcion1']);
+        Route::post('inscripción',[PropeController::class,'inscripcion2'])->name('prope.inscribir1');
+        Route::get('materias',[PropeController::class,'inscripcion3']);
+        Route::post('alta_prope_gpo',[PropeController::class,'inscripcion4'])->name('prope.inscribir2');
     });
 });
 

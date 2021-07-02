@@ -112,7 +112,7 @@
             <li><a href="/ficha/montos/">Conceptos</a></li>
             <li><a href="/ficha/crear/">Validar Solicitante</a></li>
             <li><a href="/ficha/lista/">Listado</a></li>
-            <li><a href="/ficha/kill/">Matar ficha</a></li>
+            <li><a href="/ficha/kill/">Cancelar ficha</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -145,7 +145,7 @@
                   <li><a href="/ficha/prope/alta_grupo">Creación de grupo</a></li>
                   <li><a href="/ficha/prope/docente">Alta a docente</a></li>
                   <li><a href="/ficha/prope/asignar">Asignación de docente</a></li>
-                  <li><a href="/ficha/estadistica/">Inscripción</a></li>
+                  <li><a href="/ficha/prope/inscribir">Inscripción</a></li>
                   <li><a href="/ficha/estadistica/">Listas</a></li>
                   <li><a href="/ficha/estadistica/">Estadísticas</a></li>
                   <li><a href="/ficha/estadistica/">Actas</a></li>

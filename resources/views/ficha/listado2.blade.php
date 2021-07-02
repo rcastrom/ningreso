@@ -24,7 +24,7 @@
                 <th scope="col">Carrera</th>
                 <th scope="col">No. Ficha</th>
             </tr>
-            </thead> (<?php $i=1;?>
+            </thead> <?php $i=1;?>
             @foreach ($info as $key=>$value)
                 @if($key!=0)
                 <tr>

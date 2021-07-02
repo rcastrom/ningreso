@@ -198,7 +198,7 @@ class FichaController extends Controller
             'appat.required'=>'Por favor, indique el apellido de la persona'
         ]);
         $periodo=$request->session()->get('periodo');
-        $appat=$request->appat;
+        $appat=utf8_decode($request->appat);
         $posibles=PreFicha::where('periodo',$periodo)
             ->where(function ($query) use($appat){
             $query->where('apellido_paterno','like','%'.$appat.'%')
@@ -206,7 +206,7 @@ class FichaController extends Controller
                 ->orWhere('nombre_aspirante','like','%'.$appat,'%');
         })->count();
         if($posibles==0){
-            return view('fichas.noprocede3');
+            return view('ficha.noprocede3');
         }else{
             $aspirantes=PreFicha::where('periodo',$periodo)
                 ->where(function ($query) use($appat){
@@ -314,9 +314,9 @@ class FichaController extends Controller
         $ficha=$request->get('nficha');
         PreFicha::where('periodo',$periodo)->where('no_solicitud',(int)$ficha)
             ->update([
-                'apellido_paterno'=>$request->get('appat'),
-                'apellido_materno'=>$request->get('apmat'),
-                'nombre_aspirante'=>$request->get('nombre'),
+                'apellido_paterno'=>utf8_decode($request->get('appat')),
+                'apellido_materno'=>utf8_decode($request->get('apmat')),
+                'nombre_aspirante'=>utf8_decode($request->get('nombre')),
                 'curp'=>$request->get('curp'),
                 'carrera_opcion_1'=>$request->get('carrera')
             ]);

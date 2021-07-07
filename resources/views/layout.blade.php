@@ -146,9 +146,9 @@
                   <li><a href="/ficha/prope/docente">Alta a docente</a></li>
                   <li><a href="/ficha/prope/asignar">Asignación de docente</a></li>
                   <li><a href="/ficha/prope/inscribir">Inscripción</a></li>
-                  <li><a href="/ficha/estadistica/">Listas</a></li>
-                  <li><a href="/ficha/estadistica/">Estadísticas</a></li>
-                  <li><a href="/ficha/estadistica/">Actas</a></li>
+                  <li><a href="/ficha/prope/listas">Listas</a></li>
+                  <li><a href="/ficha/prope/estadistica/">Estadísticas</a></li>
+                  <li><a href="/ficha/prope/actas/">Actas</a></li>
               </ul>
           </li>
         <!--<li class="treeview">

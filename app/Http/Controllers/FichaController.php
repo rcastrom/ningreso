@@ -324,8 +324,9 @@ class FichaController extends Controller
         if(!empty($acceso)){
             $email=$request->get('correo');
             $password=$request->acceso;
-            $user=User::where('email',$email);
-            $user->update(['password'=>bcrypt($password)]);
+            User::where('email',$email)->update([
+                'password'=>bcrypt($password)
+            ]);
         }
         return view('ficha.gracias');
     }
@@ -340,8 +341,9 @@ class FichaController extends Controller
         $email=$request->get('correo');
         $password=$request->acceso;
         if(User::where('email',$email)->count()>0){
-            $user=User::where('email',$email)->count();
-            $user->update(['password'=>bcrypt($password)]);
+            User::where('email',$email)->update([
+                'password'=>bcrypt($password)
+            ]);
             return view('ficha.gracias');
         }else{
             return view('ficha.error5')->with(compact('email'));

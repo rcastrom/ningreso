@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Personal;
 use App\PreFicha;
 use App\Prope;
 use App\User;
@@ -11,6 +12,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\GpoPrope;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PropeController extends Controller
 {
@@ -256,5 +260,190 @@ class PropeController extends Controller
             $alta_materia->save();
         }
         return view('prope.inscripcion_gracias');
+    }
+    public function listas1(){
+        return view('prope.listas1');
+    }
+    public function listas2(Request $request){
+        $periodo=$request->session()->get('periodo');
+        $tipo=$request->get('tipo');
+        if($tipo==1){
+            if(GpoPrope::where('periodo',$periodo)->whereNotNull('docente')->count()>0){
+                $info=Docente::select('appat','apmat','nombre','id')
+                    ->orderBy('appat','ASC')
+                    ->orderBy('apmat','ASC')
+                    ->orderBy('nombre','ASC')
+                    ->get();
+                return view('prope.listas2')->with(compact('periodo','tipo','info'));
+            }else{
+                $leyenda=" con docentes ";
+            }
+        }elseif ($tipo==2){
+            if(GpoPrope::where('periodo',$periodo)->count()>0){
+                $info=GpoPrope::where('periodo',$periodo)->select('materia','grupo','id')->get();
+                return view('prope.listas3')->with(compact('periodo','tipo','info'));
+            }else{
+                $leyenda=" con grupos ";
+            }
+        }
+        return view('prope.noprocede4')->with(compact('leyenda'));
+    }
+    public function listas3(Request $request){
+        $doc=Docente::where('id',$request->quien)->first();
+        $RFC=$doc->rfc;
+        $periodo=$request->get('periodo');
+        $tipo=$request->get('tipo');
+        if(GpoPrope::where('periodo',$periodo)
+                ->where('docente',$RFC)
+                ->count()>0){
+            $info=GpoPrope::where('periodo',$request->get('periodo'))
+                ->where('docente',$RFC)->select('materia','grupo','id')
+                ->orderBy('materia','ASC')
+                ->get();
+            return view('prope.listas3')->with(compact('periodo','tipo','info'));
+        }else{
+            $leyenda="no cuenta con materias marcadas para el propedéutico.";
+            return view('prope.noprocede5')->with(compact('leyenda'));
+        }
+    }
+    public function listas4(Request $request){
+        if(Prope::where('periodo',$request->get('periodo'))
+                ->where('materia',(int)$request->get('cual'))
+                ->count()>0){
+            $periodo=$request->get('periodo');
+            $inscritos=Prope::where('materia',(int)$request->get('cual'))
+                ->leftJoin('sol_ficha_examen',function ($join) use($periodo){
+                    $join->on('propes.ficha','=','sol_ficha_examen.no_solicitud');
+                    $join->on('propes.periodo','=','sol_ficha_examen.periodo');
+                    $join->on('propes.periodo','=',DB::raw("'".$periodo."'"));
+                })
+                ->select('propes.ficha','apellido_paterno','apellido_materno','nombre_aspirante')
+                ->orderBy('apellido_paterno','asc')
+                ->orderBy('apellido_materno','asc')
+                ->orderBy('nombre_aspirante','asc')
+                ->get();
+            $nombre_mat=GpoPrope::where('periodo',$periodo)
+                ->where('id',(int)$request->get('cual'))
+                ->first();
+            if(is_null($nombre_mat->docente)){
+                $doc="Por asignar";
+            }else{
+                $ndocente=Docente::where('rfc',$nombre_mat->docente)
+                    ->select('appat','apmat','nombre')->first();
+                $doc=$ndocente->appat." ".$ndocente->apmat." ".$ndocente->nombre;
+            }
+            $data=[
+                'alumnos'=>$inscritos,
+                'docente'=>$doc,
+                'nmateria'=>$nombre_mat
+            ];
+            $pdf = PDF::loadView('prope.pdf_lista', $data);
+            return $pdf->download('lista.pdf');
+        }else{
+            $leyenda="no tiene ningún alumno inscrito";
+            return view('prope.noprocede5')->with(compact('leyenda'));
+        }
+    }
+    public function estadistica1(){
+        return view('prope.estadistica1');
+    }
+    public function estadistica2(Request $request){
+        $periodo=$request->session()->get('periodo');
+        $consulta=$request->get('consulta');
+        if($consulta==1){
+            $inscritos=Prope::select(Prope::raw('count(*) as total'),'carrera_opcion_1 as carrera')
+                ->leftJoin('sol_ficha_examen',function ($join) use($periodo){
+                    $join->on('propes.ficha','=','sol_ficha_examen.no_solicitud');
+                    $join->on('propes.periodo','=','sol_ficha_examen.periodo');
+                    $join->on('propes.periodo','=',DB::raw("'".$periodo."'"));
+                })
+                ->groupBy('carrera_opcion_1')
+                ->orderBY('carrera_opcion_1','ASC')
+                ->get();
+            return view('prope.estadistica2',compact('inscritos'));
+        }
+    }
+    public function actas1(){
+        return view('prope.actas1');
+    }
+    public function actas2(Request $request){
+        $periodo=$request->session()->get('periodo');
+        $tipo=$request->get('tipo');
+        if($tipo==1){
+            if(GpoPrope::where('periodo',$periodo)->whereNotNull('docente')->count()>0){
+                $info=Docente::select('appat','apmat','nombre','id')
+                    ->orderBy('appat','ASC')
+                    ->orderBy('apmat','ASC')
+                    ->orderBy('nombre','ASC')
+                    ->get();
+                return view('prope.actas2')->with(compact('periodo','tipo','info'));
+            }else{
+                $leyenda=" con docentes ";
+            }
+        }elseif ($tipo==2){
+            if(GpoPrope::where('periodo',$periodo)->count()>0){
+                $info=GpoPrope::where('periodo',$periodo)->select('materia','grupo','id')->get();
+                return view('prope.actas3')->with(compact('periodo','tipo','info'));
+            }else{
+                $leyenda=" con grupos ";
+            }
+        }
+        return view('prope.noprocede4')->with(compact('leyenda'));
+    }
+    public function actas3(Request $request){
+        $doc=Docente::where('id',$request->quien)->first();
+        $RFC=$doc->rfc;
+        $periodo=$request->get('periodo');
+        $tipo=$request->get('tipo');
+        if(GpoPrope::where('periodo',$periodo)
+                ->where('docente',$RFC)
+                ->count()>0){
+            $info=GpoPrope::where('periodo',$request->get('periodo'))
+                ->where('docente',$RFC)->select('materia','grupo','id')
+                ->orderBy('materia','ASC')
+                ->get();
+            return view('prope.actas3')->with(compact('periodo','tipo','info'));
+        }else{
+            $leyenda="no cuenta con materias marcadas para el propedéutico.";
+            return view('prope.noprocede5')->with(compact('leyenda'));
+        }
+    }
+    public function actas4(Request $request){
+        if(Prope::where('periodo',$request->get('periodo'))
+                ->where('materia',(int)$request->get('cual'))
+                ->count()>0){
+            $periodo=$request->get('periodo');
+            $inscritos=Prope::where('materia',(int)$request->get('cual'))
+                ->leftJoin('sol_ficha_examen',function ($join) use($periodo){
+                    $join->on('propes.ficha','=','sol_ficha_examen.no_solicitud');
+                    $join->on('propes.periodo','=','sol_ficha_examen.periodo');
+                    $join->on('propes.periodo','=',DB::raw("'".$periodo."'"));
+                })
+                ->select('propes.ficha','apellido_paterno','apellido_materno','nombre_aspirante','propes.eval')
+                ->orderBy('apellido_paterno','asc')
+                ->orderBy('apellido_materno','asc')
+                ->orderBy('nombre_aspirante','asc')
+                ->get();
+            $nombre_mat=GpoPrope::where('periodo',$periodo)
+                ->where('id',(int)$request->get('cual'))
+                ->first();
+            if(is_null($nombre_mat->docente)){
+                $doc="Por asignar";
+            }else{
+                $ndocente=Docente::where('rfc',$nombre_mat->docente)
+                    ->select('appat','apmat','nombre')->first();
+                $doc=$ndocente->appat." ".$ndocente->apmat." ".$ndocente->nombre;
+            }
+            $data=[
+                'alumnos'=>$inscritos,
+                'docente'=>$doc,
+                'nmateria'=>$nombre_mat
+            ];
+            $pdf = PDF::loadView('prope.pdf_acta', $data);
+            return $pdf->download('lista.pdf');
+        }else{
+            $leyenda="no tiene ningún alumno inscrito";
+            return view('prope.noprocede5')->with(compact('leyenda'));
+        }
     }
 }

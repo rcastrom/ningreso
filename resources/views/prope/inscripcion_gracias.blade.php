@@ -13,7 +13,7 @@
 
 @section('content')
     @if( auth()->check() )
-        <h2>ALta a grupo</h2>
+        <h2>Alta a grupo</h2>
        <p>Se inscribió al estudiante</p>
     @endif
 @endsection

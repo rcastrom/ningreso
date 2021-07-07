@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\PropeController;
@@ -25,7 +26,7 @@ Route::get('/', [SessionsController::class,'index']);
     Route::match(['get','post'],'/ficha',[FichaController::class, 'index');
 });
 */
-Route::group(['prefix'=>'ficha','middleware'=>'auth'],function (){
+Route::group(['prefix'=>'ficha','middleware'=>['auth','role:admin']],function (){
     Route::get('/', [FichaController::class, 'index'])
         ->name('ficha.inicio');
     Route::get('/cambiar',[FichaController::class, 'cambio']);
@@ -73,6 +74,16 @@ Route::group(['prefix'=>'ficha','middleware'=>'auth'],function (){
         Route::post('inscripción',[PropeController::class,'inscripcion2'])->name('prope.inscribir1');
         Route::get('materias',[PropeController::class,'inscripcion3']);
         Route::post('alta_prope_gpo',[PropeController::class,'inscripcion4'])->name('prope.inscribir2');
+        Route::get('listas',[PropeController::class,'listas1']);
+        Route::post('listas',[PropeController::class,'listas2'])->name('prope.listas1');
+        Route::post('listaxdoc',[PropeController::class,'listas3'])->name('prope.listas2');
+        Route::post('listaxmat',[PropeController::class,'listas4'])->name('prope.listas3');
+        Route::get('estadistica',[PropeController::class,'estadistica1']);
+        Route::post('estadisticos',[PropeController::class,'estadistica2'])->name('prope.estadistica1');
+        Route::get('actas',[PropeController::class,'actas1']);
+        Route::post('actas',[PropeController::class,'actas2'])->name('prope.actas1');
+        Route::post('actaxdoc',[PropeController::class,'actas3'])->name('prope.actas2');
+        Route::post('actaxmat',[PropeController::class,'actas4'])->name('prope.actas3');
     });
 });
 
